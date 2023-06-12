@@ -43,7 +43,20 @@ class MyApp extends StatelessWidget {
               ),
         ),
         iconTheme: const IconThemeData(color: primaryColor),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            foregroundColor: backgroundColor,
+            backgroundColor: buttonColor,
+            minimumSize: const Size(double.infinity, 40),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+        ),
       ),
+      routes: {
+        OnBoardingScreen.routeName: (context) => const OnBoardingScreen(),
+      },
       home: const OnBoardingScreen(),
     );
   }
