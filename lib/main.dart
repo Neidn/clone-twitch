@@ -1,7 +1,10 @@
-import 'package:clone_twitch/screens/onboarding_screen.dart';
-import 'package:clone_twitch/utils/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+
+import '/utils/colors.dart';
+
+import '/screens/login_screen.dart';
+import '/screens/on_boarding_screen.dart';
 
 import '/firebase_options.dart';
 
@@ -56,6 +59,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         OnBoardingScreen.routeName: (context) => const OnBoardingScreen(),
+        LoginScreen.routeName: (context) => const LoginScreen(),
       },
       home: const OnBoardingScreen(),
     );
