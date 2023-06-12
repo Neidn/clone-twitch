@@ -1,3 +1,5 @@
+import 'package:clone_twitch/screens/onboarding_screen.dart';
+import 'package:clone_twitch/utils/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -25,22 +27,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Clone Twitch',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Flutter Demo Home Page'),
+        brightness: Brightness.light,
+        scaffoldBackgroundColor: backgroundColor,
+        appBarTheme: AppBarTheme.of(context).copyWith(
+          elevation: 0,
+          backgroundColor: backgroundColor,
+          titleTextStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: primaryColor,
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
         ),
-        body: const Center(
-          child: Text(
-            'This is a demo app',
-            style: TextStyle(fontSize: 24),
-          ),
-        ),
+        iconTheme: const IconThemeData(color: primaryColor),
       ),
+      home: const OnBoardingScreen(),
     );
   }
 }
