@@ -1,3 +1,4 @@
+import 'package:clone_twitch/screens/signup_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
       routes: {
         OnBoardingScreen.routeName: (context) => const OnBoardingScreen(),
         LoginScreen.routeName: (context) => const LoginScreen(),
+        SignupScreen.routeName: (context) => const SignupScreen(),
       },
       home: const OnBoardingScreen(),
     );
