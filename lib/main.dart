@@ -1,13 +1,17 @@
-import 'package:clone_twitch/screens/signup_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '/firebase_options.dart';
 
 import '/utils/colors.dart';
 
+import '/providers/user_provider.dart';
+
 import '/screens/login_screen.dart';
 import '/screens/on_boarding_screen.dart';
-
-import '/firebase_options.dart';
+import '/screens/signup_screen.dart';
+import '/screens/home_screen.dart';
 
 Future<void> init(WidgetsBinding widgetsBinding) async {
   print('Starting initialization...');
@@ -21,7 +25,16 @@ Future<void> init(WidgetsBinding widgetsBinding) async {
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   await init(widgetsBinding);
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => UserProvider(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -62,6 +75,7 @@ class MyApp extends StatelessWidget {
         OnBoardingScreen.routeName: (context) => const OnBoardingScreen(),
         LoginScreen.routeName: (context) => const LoginScreen(),
         SignupScreen.routeName: (context) => const SignupScreen(),
+        HomeScreen.routeName: (context) => const HomeScreen(),
       },
       home: const OnBoardingScreen(),
     );

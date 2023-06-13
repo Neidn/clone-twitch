@@ -1,6 +1,11 @@
-import 'package:clone_twitch/widgets/custom_button.dart';
-import 'package:clone_twitch/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
+
+import '/resources/auth_methods.dart';
+
+import '/widgets/custom_button.dart';
+import '/widgets/custom_text_field.dart';
+
+import '/screens/home_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   static const routeName = '/signup';
@@ -16,6 +21,8 @@ class _SignupScreenState extends State<SignupScreen> {
   late final TextEditingController _passwordController;
   late final TextEditingController _usernameController;
 
+  final AuthMethods _authMethods = AuthMethods();
+
   @override
   void initState() {
     _emailController = TextEditingController();
@@ -30,6 +37,23 @@ class _SignupScreenState extends State<SignupScreen> {
     _passwordController.dispose();
     _usernameController.dispose();
     super.dispose();
+  }
+
+  void signUpUser(BuildContext context) {
+    _authMethods
+        .signUpUser(
+      context: context,
+      email: _emailController.text.trim(),
+      username: _usernameController.text.trim(),
+      password: _passwordController.text.trim(),
+    )
+        .then(
+      (value) {
+        if (value == true) {
+          Navigator.of(context).pushNamed(HomeScreen.routeName);
+        }
+      },
+    );
   }
 
   @override
@@ -94,7 +118,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
               // Sign up button
               CustomButton(
-                onPressed: () {},
+                onPressed: () => signUpUser(context),
                 text: 'Sign up',
               ),
             ],
