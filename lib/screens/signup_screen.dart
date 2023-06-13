@@ -47,13 +47,11 @@ class _SignupScreenState extends State<SignupScreen> {
       username: _usernameController.text.trim(),
       password: _passwordController.text.trim(),
     )
-        .then(
-      (value) {
-        if (value == true) {
-          Navigator.of(context).pushNamed(HomeScreen.routeName);
-        }
-      },
-    );
+        .then((bool result) {
+      if (result == true) {
+        Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+      }
+    });
   }
 
   @override

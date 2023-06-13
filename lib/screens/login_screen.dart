@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '/resources/auth_methods.dart';
 
 import '/widgets/custom_button.dart';
 import '/widgets/custom_text_field.dart';
+
+import '/screens/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
@@ -16,6 +21,8 @@ class _LoginScreenState extends State<LoginScreen> {
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
 
+  final AuthMethods _authMethods = AuthMethods();
+
   @override
   void initState() {
     _emailController = TextEditingController();
@@ -28,6 +35,20 @@ class _LoginScreenState extends State<LoginScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  Future<void> loginUser() async {
+    await _authMethods
+        .loginUser(
+      context: context,
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+    )
+        .then((bool result) {
+      if (result == true) {
+        Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+      }
+    });
   }
 
   @override
@@ -75,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CustomButton(
-                  onPressed: () {},
+                  onPressed: () async => await loginUser(),
                   text: 'Log in',
                 ),
               ),
