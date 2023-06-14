@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '/utils/colors.dart';
-
-import '/providers/user_provider.dart';
 
 import '/screens/feed_screen.dart';
 import '/screens/go_live_screen.dart';
@@ -19,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late final PageController _pageController;
-  int _currentIndex = 0;
+  int _currentIndex = 1;
 
   final List<Widget> _pages = [
     const FeedScreen(),
@@ -51,8 +48,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final UserProvider userProvider = Provider.of<UserProvider>(context);
-
     return Scaffold(
       body: SafeArea(
         child: PageView(
@@ -70,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: backgroundColor,
         currentIndex: _currentIndex,
         onTap: jumpToPage,
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
             label: 'Following',

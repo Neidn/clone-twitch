@@ -47,5 +47,20 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<!-- file picker start -->
+  <key>UIBackgroundModes</key>
+  <array>
+     <string>fetch</string>
+     <string>remote-notification</string>
+  </array>
+  <key>NSAppleMusicUsageDescription</key>
+  <string>Need music access to play music</string>
+  <key>UISupportsDocumentBrowser</key>
+  <true/>
+  <key>LSSupportsOpeningDocumentsInPlace</key>
+  <true/>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>Need photo access to upload photos</string>
+  <!-- file picker end -->
 </dict>
 </plist>
