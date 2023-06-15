@@ -62,5 +62,11 @@
   <key>NSPhotoLibraryUsageDescription</key>
   <string>Need photo access to upload photos</string>
   <!-- file picker end -->
+  <!-- Agora Rct start -->
+  <key>NSCameraUsageDescription</key>
+  <string>Need camera access to start video call</string>
+  <key>NSMicrophoneUsageDescription</key>
+  <string>Need microphone access to start video call</string>
+  <!-- Agora Rct end -->
 </dict>
 </plist>

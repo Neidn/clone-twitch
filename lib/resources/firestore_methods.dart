@@ -22,15 +22,9 @@ class FirestoreMethods {
     required String title,
     required Uint8List? image,
   }) async {
+    final User user = Provider.of<UserProvider>(context, listen: false).getUser;
+    String channelId = '${user.uid}_${user.username}';
     try {
-      final User user =
-          Provider.of<UserProvider>(context, listen: false).getUser;
-
-      if (user == null) {
-        throw Exception('Please login first');
-      }
-
-      String channelId = '';
       if (title.isEmpty || image == null) {
         throw Exception('Please fill all the fields');
       }
@@ -38,7 +32,7 @@ class FirestoreMethods {
       final DocumentSnapshot<Map<String, dynamic>> liveStreamSnapshot =
           await _firestore
               .collection(liveStreamsCollection)
-              .doc(user.uid)
+              .doc(channelId)
               .get();
 
       if (liveStreamSnapshot.exists) {
@@ -51,8 +45,6 @@ class FirestoreMethods {
         uid: user.uid,
       );
 
-      channelId = '${user.uid}${user.username}';
-
       final LiveStream liveStream = LiveStream(
         title: title,
         uid: user.uid,
@@ -62,9 +54,6 @@ class FirestoreMethods {
         viewers: 0,
         channelId: channelId,
       );
-
-      print('livestreamcollection: $liveStreamsCollection');
-      print('channelId: $channelId');
 
       await _firestore
           .collection(liveStreamsCollection)
