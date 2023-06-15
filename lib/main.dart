@@ -1,4 +1,3 @@
-import 'package:clone_twitch/resources/auth_methods.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +8,8 @@ import '/firebase_options.dart';
 import '/utils/colors.dart';
 
 import '/models/user.dart' as model;
+
+import '/resources/auth_methods.dart';
 
 import '/providers/user_provider.dart';
 
@@ -83,8 +84,10 @@ class MyApp extends StatelessWidget {
         SignupScreen.routeName: (context) => const SignupScreen(),
         HomeScreen.routeName: (context) => const HomeScreen(),
       },
-      home: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
+      home: FutureBuilder(
+        future: AuthMethods().getCurrentUser().then((model.User user) {
+          Provider.of<UserProvider>(context, listen: false).user = user;
+        }),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const LoadingIndicator();

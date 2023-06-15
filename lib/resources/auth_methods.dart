@@ -18,19 +18,11 @@ class AuthMethods {
   );
 
   // get current user
-  Future<model.User?> getCurrentUser() async {
-    User? currentUser = _auth.currentUser;
-
-    if (currentUser == null) {
-      return null;
-    }
+  Future<model.User> getCurrentUser() async {
+    User currentUser = _auth.currentUser!;
 
     DocumentSnapshot<Map<String, dynamic>> documentSnapshot =
         await _userRef.doc(currentUser.uid).get();
-
-    if (!documentSnapshot.exists) {
-      return null;
-    }
 
     return model.User.fromMap(documentSnapshot.data()!);
   }
@@ -109,6 +101,29 @@ class AuthMethods {
         context,
         e.message ?? 'Something went wrong!',
       );
+      return false;
+    }
+  }
+
+  Future<bool> logoutUser(BuildContext context) async {
+    try {
+      await _auth.signOut();
+      return true;
+    } on FirebaseAuthException catch (e) {
+      showSnackBar(
+        context,
+        e.message ?? 'Something went wrong!',
+      );
+      return false;
+    }
+  }
+
+  Future<bool> logout() async {
+    try {
+      await _auth.signOut();
+      return true;
+    } on FirebaseAuthException catch (e) {
+      print(e.message);
       return false;
     }
   }

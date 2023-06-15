@@ -1,3 +1,4 @@
+import 'package:clone_twitch/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,10 +19,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final AuthMethods _authMethods = AuthMethods();
+
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
 
-  final AuthMethods _authMethods = AuthMethods();
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -38,6 +41,10 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> loginUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+
     await _authMethods
         .loginUser(
       context: context,
@@ -49,6 +56,10 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
       }
     });
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -59,51 +70,55 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(
         title: const Text('Log in'),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(18.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: size.height * 0.1),
-              // Email
-              const Text(
-                'Email',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
+      body: _isLoading
+          ? const Center(
+              child: LoadingIndicator(),
+            )
+          : SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: size.height * 0.1),
+                    // Email
+                    const Text(
+                      'Email',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: CustomTextField(
+                        controller: _emailController,
+                      ),
+                    ),
+                    // Password
+                    const Text(
+                      'Password',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: CustomTextField(
+                        controller: _passwordController,
+                      ),
+                    ),
+                    // Log in button
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CustomButton(
+                        onPressed: () async => await loginUser(),
+                        text: 'Log in',
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: CustomTextField(
-                  controller: _emailController,
-                ),
-              ),
-              // Password
-              const Text(
-                'Password',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: CustomTextField(
-                  controller: _passwordController,
-                ),
-              ),
-              // Log in button
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CustomButton(
-                  onPressed: () async => await loginUser(),
-                  text: 'Log in',
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }

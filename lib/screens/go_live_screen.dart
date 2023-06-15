@@ -6,8 +6,12 @@ import 'package:flutter/material.dart';
 import '/utils/colors.dart';
 import '/utils/utils.dart';
 
+import '/resources/firestore_methods.dart';
+
 import '/widgets/custom_button.dart';
 import '/widgets/custom_text_field.dart';
+
+import '/screens/broadcast_screen.dart';
 
 class GoLiveScreen extends StatefulWidget {
   const GoLiveScreen({super.key});
@@ -32,6 +36,27 @@ class _GoLiveScreenState extends State<GoLiveScreen> {
     _titleController.dispose();
     image = null;
     super.dispose();
+  }
+
+  void goLiveStream(BuildContext context) {
+    FirestoreMethods()
+        .startLiveStream(
+      context: context,
+      title: _titleController.text.trim(),
+      image: image,
+    )
+        .then((String channelId) {
+      if (channelId.isEmpty) {
+        return;
+      }
+
+      showSnackBar(context, 'Live stream started successfully!');
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const BroadcastScreen(),
+        ),
+      );
+    });
   }
 
   @override
@@ -129,7 +154,7 @@ class _GoLiveScreenState extends State<GoLiveScreen> {
             padding: const EdgeInsets.only(bottom: 10),
             child: CustomButton(
               text: 'Go Live',
-              onPressed: () {},
+              onPressed: () => goLiveStream(context),
             ),
           ),
         ],

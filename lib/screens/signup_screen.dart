@@ -1,3 +1,4 @@
+import 'package:clone_twitch/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 
 import '/resources/auth_methods.dart';
@@ -17,11 +18,13 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  final AuthMethods _authMethods = AuthMethods();
+
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
   late final TextEditingController _usernameController;
 
-  final AuthMethods _authMethods = AuthMethods();
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -40,6 +43,9 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void signUpUser(BuildContext context) {
+    setState(() {
+      _isLoading = true;
+    });
     _authMethods
         .signUpUser(
       context: context,
@@ -52,6 +58,9 @@ class _SignupScreenState extends State<SignupScreen> {
         Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
       }
     });
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -62,67 +71,71 @@ class _SignupScreenState extends State<SignupScreen> {
       appBar: AppBar(
         title: const Text('Sign up'),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(18.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: size.height * 0.1),
-              // Email
-              const Text(
-                'Email',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: CustomTextField(
-                  controller: _emailController,
-                ),
-              ),
-              const SizedBox(height: 20),
+      body: _isLoading
+          ? const Center(
+              child: LoadingIndicator(),
+            )
+          : SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: size.height * 0.1),
+                    // Email
+                    const Text(
+                      'Email',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: CustomTextField(
+                        controller: _emailController,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
 
-              // Username
-              const Text(
-                'Username',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: CustomTextField(
-                  controller: _usernameController,
-                ),
-              ),
-              const SizedBox(height: 20),
+                    // Username
+                    const Text(
+                      'Username',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: CustomTextField(
+                        controller: _usernameController,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
 
-              // Password
-              const Text(
-                'Password',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: CustomTextField(
-                  controller: _passwordController,
-                ),
-              ),
-              const SizedBox(height: 20),
+                    // Password
+                    const Text(
+                      'Password',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: CustomTextField(
+                        controller: _passwordController,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
 
-              // Sign up button
-              CustomButton(
-                onPressed: () => signUpUser(context),
-                text: 'Sign up',
+                    // Sign up button
+                    CustomButton(
+                      onPressed: () => signUpUser(context),
+                      text: 'Sign up',
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }

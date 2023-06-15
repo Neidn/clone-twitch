@@ -7,21 +7,16 @@ import '/models/user.dart';
 class UserProvider extends ChangeNotifier {
   final AuthMethods _authMethods = AuthMethods();
 
-  User _user = User(
-    uid: '',
-    username: '',
-    email: '',
-  );
+  User? _user;
 
-  User get user {
-    if (_user.uid == '' && _user.username == '' && _user.email == '') {
+  User get getUser {
+    if (_user == null) {
       _authMethods.getCurrentUser().then((user) {
-        _user = user!;
+        _user = user;
         notifyListeners();
       });
     }
-
-    return _user;
+    return _user!;
   }
 
   set user(User user) {
