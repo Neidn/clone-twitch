@@ -52,6 +52,7 @@ app.*.map.json
 /macos/firebase_app_id_file.json
 /lib/generated_plugin_registrant.dart
 /lib/firebase_options.dart
+/lib/config.dart
 
 # Ios Pods
 /ios/Podfile.*

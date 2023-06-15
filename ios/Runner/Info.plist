@@ -54,19 +54,19 @@
      <string>remote-notification</string>
   </array>
   <key>NSAppleMusicUsageDescription</key>
-  <string>Need music access to play music</string>
+  <string>App needs access to your music library</string>
   <key>UISupportsDocumentBrowser</key>
   <true/>
   <key>LSSupportsOpeningDocumentsInPlace</key>
   <true/>
   <key>NSPhotoLibraryUsageDescription</key>
-  <string>Need photo access to upload photos</string>
+  <string>App needs access to your photo library</string>
   <!-- file picker end -->
-  <!-- Agora Rct start -->
+  <!-- agora rtc start -->
   <key>NSCameraUsageDescription</key>
-  <string>Need camera access to start video call</string>
+  <string>App needs access to your camera</string>
   <key>NSMicrophoneUsageDescription</key>
-  <string>Need microphone access to start video call</string>
-  <!-- Agora Rct end -->
+  <string>App needs access to your microphone</string>
+  <!-- agora rtc end -->
 </dict>
 </plist>
